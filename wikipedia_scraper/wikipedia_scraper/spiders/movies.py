@@ -8,7 +8,7 @@ class MoviesSpider(scrapy.Spider):
     start_urls = ['https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films']
 
     def parse(self, response):
-        relative_movie_links = response.css('.wikitable i a')[34:40]
+        relative_movie_links = response.css('.wikitable i a')
 
         yield from response.follow_all(relative_movie_links, self.parse_movie_links)
 
