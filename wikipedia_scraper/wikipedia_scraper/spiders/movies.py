@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-
+import logging
 
 class MoviesSpider(scrapy.Spider):
     name = 'movies'
@@ -8,13 +8,29 @@ class MoviesSpider(scrapy.Spider):
     start_urls = ['https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films']
 
     def parse(self, response):
-        relative_movie_links = response.css('.wikitable i a')
+        table_rows = response.css('.wikitable tr')[1:][:5]
+        for row in table_rows:
+            cells = row.css('td')
+            link = cells[0].css('a')[0]
+            award_data = [
+                ''.join(cell.css('::text').getall()).strip()
+                for cell in cells
+            ]
 
-        yield from response.follow_all(relative_movie_links, self.parse_movie_links)
+            details = {
+                'award_page_name': award_data[0],
+                'year': award_data[1],
+                'awards': award_data[2],
+                'nominations': award_data[3]
+            }
 
-    def parse_movie_links(self, response):
+            yield response.follow(link, self.parse_movie_links, cb_kwargs={ 'details': details })
+
+    def parse_movie_links(self, response, details):
         infoboxRows = response.css('table.infobox')[0].css('tr')        
-        movie = {}
+        movie = {
+            **details
+        }
 
         for row in infoboxRows:
             header = row.css('th')
