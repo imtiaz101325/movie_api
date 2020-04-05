@@ -20,9 +20,9 @@ class MovieItem(Item):
     )
     directed_by = Field()
     produced_by = Field()
-    screenplay_by = Field()
+    screenplay_by = Field()#
     story_by = Field()
-    starring = Field()
+    starring = Field()#added for now
     music_by = Field()
     cinematography = Field()
     edited_by = Field()

@@ -9,7 +9,7 @@ class MoviesSpider(scrapy.Spider):
     start_urls = ['https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films']
 
     def parse(self, response):
-        table_rows = response.css('.wikitable tr')[1:][:100]
+        table_rows = response.css('.wikitable tr')[1:][:2]
         for row in table_rows:
             cells = row.css('td')
             link = cells[0].css('a')[0]
