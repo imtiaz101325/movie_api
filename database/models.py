@@ -9,7 +9,7 @@ from sqlalchemy import (
 Base = declarative_base()
 
 def db_connect():
-    return create_engine('postgresql://movies:movies@localhost/movies')
+    return create_engine('sqlite:///database/movies.db')
 
 def create_table(engine):
     Base.metadata.create_all(engine)
