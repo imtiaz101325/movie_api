@@ -1,18 +1,23 @@
 # -*- coding: utf-8 -*-
-
-# Define here the models for your scraped items
-#
-# See documentation in:
-# https://docs.scrapy.org/en/latest/topics/items.html
-
 from scrapy import Field, Item
+from scrapy.loader.processors import TakeFirst
 
 class MovieItem(Item):
-    name = Field()
-    image = Field()
-    year = Field()
-    awards = Field()
-    nominations = Field()
+    name = Field(
+        output_processor=TakeFirst()
+    )
+    image = Field(
+        output_processor=TakeFirst()
+    )
+    year = Field(
+        output_processor=TakeFirst()
+    )
+    awards = Field(
+        output_processor=TakeFirst()
+    )
+    nominations = Field(
+        output_processor=TakeFirst()
+    )
     directed_by = Field()
     produced_by = Field()
     screenplay_by = Field()
@@ -39,6 +44,12 @@ class MovieItem(Item):
 
 
 class ImageItem(Item):
-    src = Field()
-    srcset = Field()
-    alt_text = Field()
+    src = Field(
+        output_processor=TakeFirst()
+    )
+    srcset = Field(
+        output_processor=TakeFirst()
+    )
+    alt_text = Field(
+        output_processor=TakeFirst()
+    )
