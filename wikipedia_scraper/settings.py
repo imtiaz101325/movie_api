@@ -14,6 +14,7 @@ BOT_NAME = 'wikipedia_scraper'
 SPIDER_MODULES = ['wikipedia_scraper.spiders']
 NEWSPIDER_MODULE = 'wikipedia_scraper.spiders'
 
+LOG_LEVEL = 'INFO'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'wikipedia_scraper (+http://www.yourdomain.com)'

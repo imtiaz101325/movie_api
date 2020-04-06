@@ -33,7 +33,7 @@ class Movie(Base):
   __tablename__ = 'movies'
 
   id = Column(Integer, primary_key=True)
-  name = Column('name', String(50), unique=True)
+  name = Column('name', String(50))
   year = Column('year', String(4))
   awards = Column('awards', Integer)
   nominations = Column('nominations', Integer)
@@ -80,7 +80,7 @@ class MoviePoster(Base):
   id = Column(Integer, primary_key=True)
   movie_id = Column(Integer, ForeignKey('movies.id'))
   src = Column('src', Text)
-  alt_text = Column('alt_text', String(50))
+  alt_text = Column('alt_text', Text)
   movie = relationship("Movie", back_populates='image')
 
 class Person(object):
