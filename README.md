@@ -28,3 +28,15 @@ Duplicate environment using `conda` and `environment.yml`
   ```
     conda env create -n env-name -f environment.yml
   ```
+
+## Running project
+
+To start scraping data run scrapy
+```
+  scrapy crawl movies
+```
+
+To start the server run flask
+```
+  FLASK_APP=server/app.py FLASK_ENV=production flask run
+```
