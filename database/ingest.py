@@ -22,7 +22,7 @@ def ingest_data():
     Session = sessionmaker(bind=engine)
 
     session = Session()
-    for _, row in movies[:100].iterrows():
+    for _, row in movies.iterrows():
         title = row['title'][:-7]
         year = row['title'][-7:].replace(' (', '').replace(')', '')
 
@@ -47,8 +47,7 @@ def ingest_data():
             except:
                 session.rollback()
                 raise
-
-            finally:
-                session.close()
         else:
             logging.info(f'{title} ({year}) did not match any movies in the database')
+    
+    session.close()
