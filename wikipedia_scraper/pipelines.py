@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
+from pathlib import Path
+import logging
 from sqlalchemy.orm import sessionmaker
 from scrapy.exceptions import DropItem
 from database.models import Movie, MoviePoster, Director, Producer, Star, db_connect, create_table
 
 class WikipediaScraperPipeline(object):
     def __init__(self):
+        logging.info('Remove existing database.')
+        path = Path('./database/movies.db')
+        if path.exists():
+            path.unlink()
+
         engine = db_connect()
         create_table(engine)
         self.Session = sessionmaker(bind=engine)
