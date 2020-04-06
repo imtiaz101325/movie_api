@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
-
-# Define here the models for your spider middleware
-#
-# See documentation in:
-# https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-
 from scrapy import signals
-
+from database import ingest
 
 class WikipediaScraperSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -17,7 +11,7 @@ class WikipediaScraperSpiderMiddleware(object):
     def from_crawler(cls, crawler):
         # This method is used by Scrapy to create your spiders.
         s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
+        crawler.signals.connect(s.spider_closed, signal=signals.spider_closed)
         return s
 
     def process_spider_input(self, response, spider):
@@ -52,8 +46,8 @@ class WikipediaScraperSpiderMiddleware(object):
         for r in start_requests:
             yield r
 
-    def spider_opened(self, spider):
-        spider.logger.info('Spider opened: %s' % spider.name)
+    def spider_closed(self, spider):
+        ingest.ingest_data()
 
 
 class WikipediaScraperDownloaderMiddleware(object):

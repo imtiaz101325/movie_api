@@ -14,6 +14,7 @@ BOT_NAME = 'wikipedia_scraper'
 SPIDER_MODULES = ['wikipedia_scraper.spiders']
 NEWSPIDER_MODULE = 'wikipedia_scraper.spiders'
 
+LOG_LEVEL = 'INFO'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'wikipedia_scraper (+http://www.yourdomain.com)'
@@ -46,9 +47,9 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'wikipedia_scraper.middlewares.WikipediaScraperSpiderMiddleware': 543,
-#}
+SPIDER_MIDDLEWARES = {
+   'wikipedia_scraper.middlewares.WikipediaScraperSpiderMiddleware': 543,
+}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
