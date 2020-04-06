@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_restful import Api, Resource, abort, request
 
 from marshmallow import Schema, fields
@@ -21,7 +21,7 @@ class MoviePosterSchema(Schema):
 
 class MovieResultSchema(Schema):
     class Meta:
-        fields = ('name', 'year', 'awards', 'nominations', 'image', 'directors', 'producers', 'stars')
+        fields = ('id', 'name', 'year', 'awards', 'nominations', 'image', 'directors', 'producers', 'stars')
         exclude = ('directors', 'producers', 'stars')
 
     image = fields.Nested(MoviePosterSchema)
@@ -31,10 +31,6 @@ class MoviePaginatedSchema(Schema):
         fields = ('start', 'limit', 'total', 'previous', 'next', 'results')
 
     results = fields.Nested(MovieResultSchema, many=True)
-
-class Home(Resource):
-    def get(self):
-        return 'Work in progress'
 
 def get_paginated_list(start, limit):
     count = db_session().query(Movie).count()
@@ -78,7 +74,8 @@ class Rating(Resource):
 
         return {
             'avg_rating': ratings[0] and round(ratings[0], 2),
-            'users': ratings[1]
+            'users': ratings[1],
+            'name': movie.name
         }
 
 class Search(Resource):
@@ -93,7 +90,10 @@ class Search(Resource):
             ).all()
         )
 
-api.add_resource(Home, '/')
+@app.route('/')
+def index():
+    return render_template('base.html', title='Home')
+
 api.add_resource(MovieList, '/api/movies')
 api.add_resource(SingleMovie, '/api/movies/<movie_id>')
 api.add_resource(Rating, '/api/movies/<movie_id>/rating')

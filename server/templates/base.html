@@ -1,0 +1,15 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - Flaskr</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h1>Movie API Server</h1>
+</nav>
+<section class="content">
+  <h2>List of endpoints</h2>
+  <ul>
+    <li>Get paginated movie list from <a href='/api/movies?start=10&limit=5'>/api/movies?start=10&limit=5</a> endpoint</li>
+    <li>Get specific movie using <a href='/api/movies/1'>/api/movies/id</a> endpoint</li>
+    <li>Get the movie ratig from <a href='/api/movies/991/rating'>/api/movies/id/rating</a> endpoint</li>
+    <li>Search to find movie using <a href='/api/search?name=toy'>/api/search?name=toy</a> endpoint</li>
+  </ul>
+</section>
