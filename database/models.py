@@ -37,7 +37,9 @@ class Movie(Base):
   year = Column('year', String(4))
   awards = Column('awards', Integer)
   nominations = Column('nominations', Integer)
-  image = relationship('MoviePoster', uselist=False, back_populates="movie")
+  image = relationship('MoviePoster', uselist=False, back_populates='movie')
+  genre = relationship('MovieGenre', back_populates='movie')
+  rating = relationship('MovieRating', back_populates='movie')
   directors = relationship(
     'Director',
     secondary=movie_director_accociation_table,
@@ -54,6 +56,24 @@ class Movie(Base):
     back_populates='movies'
   )
 
+class MovieGenre(Base):
+  __tablename__ = 'genres'
+
+  id = Column(Integer, primary_key=True)
+  movie_id = Column(Integer, ForeignKey('movies.id'))
+  genre = Column('genre', String(10))
+  movie = relationship('Movie', back_populates='genre')
+
+class MovieRating(Base):
+  __tablename__ = 'ratings'
+
+  id = Column(Integer, primary_key=True)
+  movie_id = Column(Integer, ForeignKey('movies.id'))
+  user_id = Column('user_id', Integer)
+  rating = Column('rating', Float)
+  timestamp = Column('timestamp', DateTime)
+  movie = relationship('Movie', back_populates='rating')
+
 class MoviePoster(Base):
   __tablename__ = 'movie_posters'
 
@@ -61,7 +81,7 @@ class MoviePoster(Base):
   movie_id = Column(Integer, ForeignKey('movies.id'))
   src = Column('src', Text)
   alt_text = Column('alt_text', String(50))
-  movie = relationship("Movie", back_populates="image")
+  movie = relationship("Movie", back_populates='image')
 
 class Person(object):
   id = Column(Integer, primary_key=True)
