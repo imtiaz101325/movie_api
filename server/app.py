@@ -1,7 +1,9 @@
 from flask import Flask
-from sqlalchemy.sql import func
+from flask_restful import Api, Resource, abort, request
+
 from marshmallow import Schema, fields
-from flask_restful import Api, Resource, abort
+
+from sqlalchemy.sql import func
 from sqlalchemy.orm import scoped_session, sessionmaker
 from database.models import Movie, MovieRating, db_connect, create_table
 
@@ -17,25 +19,47 @@ class MoviePosterSchema(Schema):
         fields = ('src', 'alt_text', 'movie')
         exclude = ('movie',)
 
-class MovieSchema(Schema):
+class MovieResultSchema(Schema):
     class Meta:
         fields = ('name', 'year', 'awards', 'nominations', 'image', 'directors', 'producers', 'stars')
         exclude = ('directors', 'producers', 'stars')
 
     image = fields.Nested(MoviePosterSchema)
 
+class MoviePaginatedSchema(Schema):
+    class Meta:
+        fields = ('start', 'limit', 'total', 'previous', 'next', 'results')
+
+    results = fields.Nested(MovieResultSchema, many=True)
+
 class Home(Resource):
     def get(self):
         return 'Work in progress'
 
+def get_paginated_list(start, limit):
+    count = db_session().query(Movie).count()
+    if (count < start):
+        abort(404, message=f'Not enough movies to start at {start}')
+
+    res = {}
+    res['start'] = start
+    res['limit'] = limit
+    res['total'] = count
+    res['results'] = db_session().query(Movie).limit(limit).offset(start).all()
+
+    return res
+
 class MovieList(Resource):
     def get(self):
-        movies_schema = MovieSchema(many=True)
-        return movies_schema.dump(db_session().query(Movie).all())
+        args = request.args
+        start = int(args.get('start', default=1))
+        limit = int(args.get('limit', default=10))
+        movies_schema = MoviePaginatedSchema()
+        return movies_schema.dump(get_paginated_list(start, limit))
 
 class SingleMovie(Resource):
     def get(self, movie_id):
-        movies_schema = MovieSchema()
+        movies_schema = MovieResultSchema()
         movie = db_session().query(Movie).filter_by(id = movie_id).first()
         if movie is None:
             abort(404, message='Movie dose not exist')

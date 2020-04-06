@@ -15,8 +15,9 @@ dependencies:
   - blas=1.0=mkl
   - bleach=3.1.0=py_0
   - ca-certificates=2020.1.1=0
-  - certifi=2019.11.28=py38_1
+  - certifi=2020.4.5.1=py38_0
   - cffi=1.14.0=py38h2e261b9_0
+  - chardet=3.0.4=py38_1003
   - click=7.1.1=py_0
   - constantly=15.1.0=pyh91ea838_0
   - cryptography=2.8=py38h1ba5d50_0
@@ -115,6 +116,7 @@ dependencies:
   - pyparsing=2.4.6=py_0
   - pyqt=5.9.2=py38h05f1152_4
   - pyrsistent=0.16.0=py38h7b6447c_0
+  - pysocks=1.7.1=py38_0
   - pytest=5.4.1=py38_0
   - pytest-runner=5.2=py_0
   - python=3.8.2=h191fe78_0
@@ -127,6 +129,7 @@ dependencies:
   - qtpy=1.9.0=py_0
   - queuelib=1.5.0=py38_0
   - readline=7.0=h7b6447c_5
+  - requests=2.23.0=py38_0
   - scrapy=2.0.1=py38h32f6830_0
   - send2trash=1.5.0=py38_0
   - service_identity=18.1.0=pyh91ea838_0
@@ -141,6 +144,7 @@ dependencies:
   - tornado=6.0.4=py38h7b6447c_1
   - traitlets=4.3.3=py38_0
   - twisted=19.10.0=py38h7b6447c_0
+  - urllib3=1.25.8=py38_0
   - w3lib=1.21.0=py_0
   - wcwidth=0.1.9=py_0
   - webencodings=0.5.1=py38_1
