@@ -29,14 +29,20 @@ Duplicate environment using `conda` and `environment.yml`
     conda env create -n env-name -f environment.yml
   ```
 
+Next activate the Anaconda environment
+  ```
+    conda activate env-name
+  ```
+
 ## Running project
 
 To start scraping data run scrapy
-```
-  scrapy crawl movies
-```
+  ```
+    scrapy crawl movies
+  ```
+This might take a while so have some coffee :)
 
 To start the server run flask
-```
-  FLASK_APP=server/app.py FLASK_ENV=production flask run
-```
+  ```
+    FLASK_APP=server/app.py FLASK_ENV=production flask run
+  ```
