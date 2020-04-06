@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from scrapy import Field, Item
-from scrapy.loader.processors import TakeFirst
+from scrapy.loader.processors import TakeFirst, MapCompose
+
+def process_year(year):
+    return year[:4]
 
 class MovieItem(Item):
     name = Field(
@@ -10,6 +13,7 @@ class MovieItem(Item):
         output_processor=TakeFirst()
     )
     year = Field(
+        input_processor=MapCompose(process_year),
         output_processor=TakeFirst()
     )
     awards = Field(

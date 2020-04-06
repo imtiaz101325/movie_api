@@ -26,9 +26,10 @@ class WikipediaScraperPipeline(object):
         movie.awards = item['awards']
         movie.nominations = item['nominations']
 
-        movie_poster.src = item['image']['src']
-        movie_poster.alt_text = item['image']['alt_text']
-        movie.image = movie_poster
+        if 'image' in item and item['image']:
+            movie_poster.src = item['image']['src']
+            movie_poster.alt_text = item['image']['alt_text']
+            movie.image = movie_poster
 
         persons = [{
             'item_key': 'directed_by',
@@ -45,12 +46,13 @@ class WikipediaScraperPipeline(object):
         }]
 
         for person_data in persons:
-            for person in item[person_data['item_key']]:
-                person_exists = session.query(person_data['model']).filter_by(name = person).first()
-                if person_exists is not None:
-                    getattr(movie, person_data['movie_key']).append(person_exists)
-                else:
-                    getattr(movie, person_data['movie_key']).append(person_data['model'](name= person))
+            if person_data['item_key'] in item:
+                for person in item[person_data['item_key']]:
+                    person_exists = session.query(person_data['model']).filter_by(name = person).first()
+                    if person_exists is not None:
+                        getattr(movie, person_data['movie_key']).append(person_exists)
+                    else:
+                        getattr(movie, person_data['movie_key']).append(person_data['model'](name= person))
 
         try:
             session.add(movie)

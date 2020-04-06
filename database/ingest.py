@@ -1,14 +1,21 @@
 import datetime
 import logging
+import requests
 import pandas as pd
+from io import StringIO
 from pathlib import Path
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.models import Movie, MovieGenre, MovieRating, db_connect, create_table
 
 def ingest_data():
-    movies = pd.read_csv('database/movies.csv')
-    ratings = pd.read_csv('database/ratings.csv')
+    movie_request = requests.get('https://school.cefalolab.com/assignment/python/movies.csv', verify=False)
+    movie_raw_data = StringIO(movie_request.text)
+    movies = pd.read_csv(movie_raw_data)
+
+    rating_request = requests.get('https://school.cefalolab.com/assignment/python/ratings.csv', verify=False)
+    rating_raw_data = StringIO(rating_request.text)
+    ratings = pd.read_csv(rating_raw_data)
 
     engine = db_connect()
     create_table(engine)
