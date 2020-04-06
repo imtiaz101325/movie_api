@@ -83,12 +83,21 @@ class Rating(Resource):
 
 class Search(Resource):
     def get(self):
-        return 'not implemented'
+        args = request.args
+        name = args.get('name', default='')
+
+        movies_schema = MovieResultSchema(many=True)
+        return movies_schema.dump(
+            db_session().query(Movie).filter(
+                Movie.name.contains(name)
+            ).all()
+        )
 
 api.add_resource(Home, '/')
 api.add_resource(MovieList, '/api/movies')
 api.add_resource(SingleMovie, '/api/movies/<movie_id>')
 api.add_resource(Rating, '/api/movies/<movie_id>/rating')
+api.add_resource(Search, '/api/search')
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
