@@ -37,3 +37,8 @@ To start the server run flask
     docker run -p 5000:5000  movie_api_container:latest /opt/conda/bin/conda run -n movie_api FLASK_APP=server/app.py FLASK_ENV=production flask run --host 0.0.0.0 --port 5000
 
   ```
+It's recommended to use the interactive shell to run the crawler then run the server to make suer that you are working with the same database.
+
+The other two instructions run independently.
+
+For instance if you just run the crawler then it will update the database but that update won't be reflected when you run the server with a separate `docker run` call.
